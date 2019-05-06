@@ -1,0 +1,478 @@
+===========================================================
+========================= TEST ============================
+===========================================================
+
+==Array and pointer test
+
+const n : int := 3;
+
+proc main () is
+	a : int := 1;
+	a1 : °int := §a;
+	a2 : real := 2.1;
+	a3 : °real := §a2;
+	°a3 := a;
+	a3 := a3; 
+	a6 : real ;
+	a7 : string := "ciao";
+	a8 : °string := §a7;
+
+	x : Array<real> := [1.1,2.0,a2,a2,°a3];  
+	x1 : Array<real> :=  x;
+	x2 : Array<Array<real>> := [x,x1,create Array<real>(5)];
+	x1 := x2[1];
+	x2[1] := x1; 
+	x3 : Array<°Array<real>> := [§x1,§x,§x2[2],§x2[1]];
+	x4 : Array<Array<°real>> := [[a3,§a2],[§a2,a3]];
+	x5 : °Array<Array<real>> := §x2;
+	x6 : Array<°Array<°real>> := [§x4[1]];
+
+	a2 := (x2[1])[1];
+	a2 := °(°(x6[1]))[1];
+
+	x3[2] := §x;
+	x2 := °x5;
+	x4[2] := °x6[1];
+
+	s1 : string := a7;
+	s2 : Array<string> := [s1,"mondo",°a8];
+	s3 : Array<Array<string>> := [s2];
+	s4 : °Array<string> := §s2;
+
+	s2[3]:= s1;
+	s3[1][2] := "The almighty RNB Compilàà";
+	s3[2][2] := s1;
+	°s4 := s3[1];
+	s4 := §s3[2];
+end main
+
+===========================================================
+========================= RESULT ==========================
+===========================================================
+
+tests/demo01.r
+
+[PARSING]: PASS
+
+[Info]: Abstract Syntax Tree
+`- ConstDef 'n', <line:3,col:7>, int
+| `- ExprVal Int  3, <line:3,col:18>
+`- ProcDef'main', <line:5,col:6>
+  `- StmtDecl 
+  | `- VarDef 'a', <line:6,col:9>, int
+  |   `- ExprVal Int  1, <line:6,col:20>
+  `- StmtDecl 
+  | `- VarDef 'a1', <line:7,col:9>, °int
+  |   `- ExprAdress 
+  |     `- LEId 'a', <line:7,col:23>
+  `- StmtDecl 
+  | `- VarDef 'a2', <line:8,col:9>, real
+  |   `- ExprVal Real 2.1, <line:8,col:22>
+  `- StmtDecl 
+  | `- VarDef 'a3', <line:9,col:9>, °real
+  |   `- ExprAdress 
+  |     `- LEId 'a2', <line:9,col:24>
+  `- StmtAssign 
+  | `- LEDeref 
+  | | `- LEId 'a3', <line:10,col:10>
+  | `- ExprLeft 
+  |   `- LEId 'a', <line:10,col:16>
+  `- StmtAssign 
+  | `- LEId 'a3', <line:11,col:9>
+  | `- ExprLeft 
+  |   `- LEId 'a3', <line:11,col:15>
+  `- StmtDecl 
+  | `- VarDecl 'a6', <line:12,col:9>, real
+  `- StmtDecl 
+  | `- VarDef 'a7', <line:13,col:9>, string
+  |   `- ExprVal String "ciao", <line:13,col:24>
+  `- StmtDecl 
+  | `- VarDef 'a8', <line:14,col:9>, °string
+  |   `- ExprAdress 
+  |     `- LEId 'a7', <line:14,col:26>
+  `- StmtDecl 
+  | `- VarDef 'x', <line:16,col:9>, Array <real>
+  |   `- ExprArray 
+  |     `- ExprVal Real 1.1, <line:16,col:29>
+  |     `- ExprVal Real 2.0, <line:16,col:33>
+  |     `- ExprLeft 
+  |     | `- LEId 'a2', <line:16,col:37>
+  |     `- ExprLeft 
+  |     | `- LEId 'a2', <line:16,col:40>
+  |     `- ExprLeft 
+  |       `- LEDeref 
+  |         `- LEId 'a3', <line:16,col:44>
+  `- StmtDecl 
+  | `- VarDef 'x1', <line:17,col:9>, Array <real>
+  |   `- ExprLeft 
+  |     `- LEId 'x', <line:17,col:30>
+  `- StmtDecl 
+  | `- VarDef 'x2', <line:18,col:9>, Array <Array <real>>
+  |   `- ExprArray 
+  |     `- ExprLeft 
+  |     | `- LEId 'x', <line:18,col:37>
+  |     `- ExprLeft 
+  |     | `- LEId 'x1', <line:18,col:39>
+  |     `- ExprCreate Array <real> 
+  |       `- ExprVal Int  5, <line:18,col:61>
+  `- StmtAssign 
+  | `- LEId 'x1', <line:19,col:9>
+  | `- ExprLeft 
+  |   `- LEArray 
+  |     `- LEId 'x2', <line:19,col:15>
+  |     `- DimArray
+  |       `- ExprVal Int  1, <line:19,col:18>
+  `- StmtAssign 
+  | `- LEArray 
+  | | `- LEId 'x2', <line:20,col:9>
+  | | `- DimArray
+  | |   `- ExprVal Int  1, <line:20,col:12>
+  | `- ExprLeft 
+  |   `- LEId 'x1', <line:20,col:18>
+  `- StmtDecl 
+  | `- VarDef 'x3', <line:21,col:9>, Array <°Array <real>>
+  |   `- ExprArray 
+  |     `- ExprAdress 
+  |     | `- LEId 'x1', <line:21,col:39>
+  |     `- ExprAdress 
+  |     | `- LEId 'x', <line:21,col:43>
+  |     `- ExprAdress 
+  |     | `- LEArray 
+  |     |   `- LEId 'x2', <line:21,col:46>
+  |     |   `- DimArray
+  |     |     `- ExprVal Int  2, <line:21,col:49>
+  |     `- ExprAdress 
+  |       `- LEArray 
+  |         `- LEId 'x2', <line:21,col:53>
+  |         `- DimArray
+  |           `- ExprVal Int  1, <line:21,col:56>
+  `- StmtDecl 
+  | `- VarDef 'x4', <line:22,col:9>, Array <Array <°real>>
+  |   `- ExprArray 
+  |     `- ExprArray 
+  |     | `- ExprLeft 
+  |     | | `- LEId 'a3', <line:22,col:39>
+  |     | `- ExprAdress 
+  |     |   `- LEId 'a2', <line:22,col:43>
+  |     `- ExprArray 
+  |       `- ExprAdress 
+  |       | `- LEId 'a2', <line:22,col:49>
+  |       `- ExprLeft 
+  |         `- LEId 'a3', <line:22,col:52>
+  `- StmtDecl 
+  | `- VarDef 'x5', <line:23,col:9>, °Array <Array <real>>
+  |   `- ExprAdress 
+  |     `- LEId 'x2', <line:23,col:38>
+  `- StmtDecl 
+  | `- VarDef 'x6', <line:24,col:9>, Array <°Array <°real>>
+  |   `- ExprArray 
+  |     `- ExprAdress 
+  |       `- LEArray 
+  |         `- LEId 'x4', <line:24,col:40>
+  |         `- DimArray
+  |           `- ExprVal Int  1, <line:24,col:43>
+  `- StmtAssign 
+  | `- LEId 'a2', <line:26,col:9>
+  | `- ExprLeft 
+  |   `- LEArray 
+  |     `- LEBra 
+  |     | `- LEArray 
+  |     |   `- LEId 'x2', <line:26,col:16>
+  |     |   `- DimArray
+  |     |     `- ExprVal Int  1, <line:26,col:19>
+  |     `- DimArray
+  |       `- ExprVal Int  1, <line:26,col:23>
+  `- StmtAssign 
+  | `- LEId 'a2', <line:27,col:9>
+  | `- ExprLeft 
+  |   `- LEDeref 
+  |     `- LEArray 
+  |       `- LEBra 
+  |       | `- LEDeref 
+  |       |   `- LEBra 
+  |       |     `- LEArray 
+  |       |       `- LEId 'x6', <line:27,col:19>
+  |       |       `- DimArray
+  |       |         `- ExprVal Int  1, <line:27,col:22>
+  |       `- DimArray
+  |         `- ExprVal Int  1, <line:27,col:27>
+  `- StmtAssign 
+  | `- LEArray 
+  | | `- LEId 'x3', <line:29,col:9>
+  | | `- DimArray
+  | |   `- ExprVal Int  2, <line:29,col:12>
+  | `- ExprAdress 
+  |   `- LEId 'x', <line:29,col:19>
+  `- StmtAssign 
+  | `- LEId 'x2', <line:30,col:9>
+  | `- ExprLeft 
+  |   `- LEDeref 
+  |     `- LEId 'x5', <line:30,col:16>
+  `- StmtAssign 
+  | `- LEArray 
+  | | `- LEId 'x4', <line:31,col:9>
+  | | `- DimArray
+  | |   `- ExprVal Int  2, <line:31,col:12>
+  | `- ExprLeft 
+  |   `- LEDeref 
+  |     `- LEArray 
+  |       `- LEId 'x6', <line:31,col:19>
+  |       `- DimArray
+  |         `- ExprVal Int  1, <line:31,col:22>
+  `- StmtDecl 
+  | `- VarDef 's1', <line:33,col:9>, string
+  |   `- ExprLeft 
+  |     `- LEId 'a7', <line:33,col:24>
+  `- StmtDecl 
+  | `- VarDef 's2', <line:34,col:9>, Array <string>
+  |   `- ExprArray 
+  |     `- ExprLeft 
+  |     | `- LEId 's1', <line:34,col:32>
+  |     `- ExprVal String "mondo", <line:34,col:35>
+  |     `- ExprLeft 
+  |       `- LEDeref 
+  |         `- LEId 'a8', <line:34,col:44>
+  `- StmtDecl 
+  | `- VarDef 's3', <line:35,col:9>, Array <Array <string>>
+  |   `- ExprArray 
+  |     `- ExprLeft 
+  |       `- LEId 's2', <line:35,col:39>
+  `- StmtDecl 
+  | `- VarDef 's4', <line:36,col:9>, °Array <string>
+  |   `- ExprAdress 
+  |     `- LEId 's2', <line:36,col:33>
+  `- StmtAssign 
+  | `- LEArray 
+  | | `- LEId 's2', <line:38,col:9>
+  | | `- DimArray
+  | |   `- ExprVal Int  3, <line:38,col:12>
+  | `- ExprLeft 
+  |   `- LEId 's1', <line:38,col:17>
+  `- StmtAssign 
+  | `- LEArray 
+  | | `- LEArray 
+  | | | `- LEId 's3', <line:39,col:9>
+  | | | `- DimArray
+  | | |   `- ExprVal Int  1, <line:39,col:12>
+  | | `- DimArray
+  | |   `- ExprVal Int  2, <line:39,col:15>
+  | `- ExprVal String "The almighty RNB Compilàà", <line:39,col:21>
+  `- StmtAssign 
+  | `- LEArray 
+  | | `- LEArray 
+  | | | `- LEId 's3', <line:40,col:9>
+  | | | `- DimArray
+  | | |   `- ExprVal Int  2, <line:40,col:12>
+  | | `- DimArray
+  | |   `- ExprVal Int  2, <line:40,col:15>
+  | `- ExprLeft 
+  |   `- LEId 's1', <line:40,col:21>
+  `- StmtAssign 
+  | `- LEDeref 
+  | | `- LEId 's4', <line:41,col:10>
+  | `- ExprLeft 
+  |   `- LEArray 
+  |     `- LEId 's3', <line:41,col:16>
+  |     `- DimArray
+  |       `- ExprVal Int  1, <line:41,col:19>
+  `- StmtAssign 
+    `- LEId 's4', <line:42,col:9>
+    `- ExprAdress 
+      `- LEArray 
+        `- LEId 's3', <line:42,col:16>
+        `- DimArray
+          `- ExprVal Int  2, <line:42,col:19>
+
+
+
+[STATIC ANALYSIS]: PASS
+[Info]: TAC Generator
+            // Constant n@3,7 has value 3
+            call main@5,6
+            exit 
+ 
+ main@5,6:  // Preamble main
+            // Body main
+            a@6,9          =int   1
+ l1:        t0             =addr  &a@6,9
+            a1@7,9         =addr  t0
+ l2:        a2@8,9         =real  2.1
+ l3:        t1             =addr  &a2@8,9
+            a3@9,9         =addr  t1
+ l4:        t2             =real  conv_int_to_real a@6,9
+            *a3@9,9        =real  t2
+ l5:        a3@9,9         =addr  a3@9,9
+ l6:        a6@12,9        =real  0.0
+ l7:        a7@13,9        =addr  str0
+ l8:        t3             =addr  &a7@13,9
+            a8@14,9        =addr  t3
+ l9:        x@16,9[0]      =real  1.1
+            x@16,9[8]      =real  2.0
+            x@16,9[16]     =real  a2@8,9
+            x@16,9[24]     =real  a2@8,9
+            t4             =real  *a3@9,9
+            x@16,9[32]     =real  t4
+ l10:       t5             =real  x@16,9[0]
+            x1@17,9[0]     =real  t5
+            t6             =real  x@16,9[8]
+            x1@17,9[8]     =real  t6
+            t7             =real  x@16,9[16]
+            x1@17,9[16]    =real  t7
+            t8             =real  x@16,9[24]
+            x1@17,9[24]    =real  t8
+            t9             =real  x@16,9[32]
+            x1@17,9[32]    =real  t9
+ l11:       t10            =real  x@16,9[0]
+            x2@18,9[0]     =real  t10
+            t11            =real  x@16,9[8]
+            x2@18,9[8]     =real  t11
+            t12            =real  x@16,9[16]
+            x2@18,9[16]    =real  t12
+            t13            =real  x@16,9[24]
+            x2@18,9[24]    =real  t13
+            t14            =real  x@16,9[32]
+            x2@18,9[32]    =real  t14
+            t15            =real  x1@17,9[0]
+            x2@18,9[40]    =real  t15
+            t16            =real  x1@17,9[8]
+            x2@18,9[48]    =real  t16
+            t17            =real  x1@17,9[16]
+            x2@18,9[56]    =real  t17
+            t18            =real  x1@17,9[24]
+            x2@18,9[64]    =real  t18
+            t19            =real  x1@17,9[32]
+            x2@18,9[72]    =real  t19
+            x2@18,9[80]    =real  0.0
+            x2@18,9[88]    =real  0.0
+            x2@18,9[96]    =real  0.0
+            x2@18,9[104]   =real  0.0
+            x2@18,9[112]   =real  0.0
+ l12:       t20            =int   x2@18,9 add_int 40
+            t21            =real  t20[0]
+            x1@17,9[0]     =real  t21
+            t22            =real  t20[8]
+            x1@17,9[8]     =real  t22
+            t23            =real  t20[16]
+            x1@17,9[16]    =real  t23
+            t24            =real  t20[24]
+            x1@17,9[24]    =real  t24
+            t25            =real  t20[32]
+            x1@17,9[32]    =real  t25
+ l13:       t26            =int   x2@18,9 add_int 40
+            t27            =real  x1@17,9[0]
+            t26[0]         =real  t27
+            t28            =real  x1@17,9[8]
+            t26[8]         =real  t28
+            t29            =real  x1@17,9[16]
+            t26[16]        =real  t29
+            t30            =real  x1@17,9[24]
+            t26[24]        =real  t30
+            t31            =real  x1@17,9[32]
+            t26[32]        =real  t31
+ l14:       t32            =addr  &x1@17,9
+            x3@21,9[0]     =addr  t32
+            t33            =addr  &x@16,9
+            x3@21,9[4]     =addr  t33
+            t34            =int   x2@18,9 add_int 80
+            t35            =addr  &t34
+            x3@21,9[8]     =addr  t35
+            t36            =int   x2@18,9 add_int 40
+            t37            =addr  &t36
+            x3@21,9[12]    =addr  t37
+ l15:       x4@22,9[0]     =addr  a3@9,9
+            t38            =addr  &a2@8,9
+            x4@22,9[4]     =addr  t38
+            t39            =addr  &a2@8,9
+            x4@22,9[8]     =addr  t39
+            x4@22,9[12]    =addr  a3@9,9
+ l16:       t40            =addr  &x2@18,9
+            x5@23,9        =addr  t40
+ l17:       t41            =int   x4@22,9 add_int 8
+            t42            =addr  &t41
+            x6@24,9[0]     =addr  t42
+ l18:       t43            =int   x2@18,9 add_int 40
+            t44            =real  t43[8]
+            a2@8,9         =real  t44
+ l19:       t45            =addr  x6@24,9[4]
+            t46            =addr  *t45
+            t47            =addr  t46[4]
+            t48            =real  *t47
+            a2@8,9         =real  t48
+ l20:       t49            =addr  &x@16,9
+            x3@21,9[8]     =addr  t49
+ l21:       t50            =addr  *x5@23,9
+            t51            =real  t50[0]
+            x2@18,9[0]     =real  t51
+            t52            =real  t50[8]
+            x2@18,9[8]     =real  t52
+            t53            =real  t50[16]
+            x2@18,9[16]    =real  t53
+            t54            =real  t50[24]
+            x2@18,9[24]    =real  t54
+            t55            =real  t50[32]
+            x2@18,9[32]    =real  t55
+            t56            =real  t50[40]
+            x2@18,9[40]    =real  t56
+            t57            =real  t50[48]
+            x2@18,9[48]    =real  t57
+            t58            =real  t50[56]
+            x2@18,9[56]    =real  t58
+            t59            =real  t50[64]
+            x2@18,9[64]    =real  t59
+            t60            =real  t50[72]
+            x2@18,9[72]    =real  t60
+            t61            =real  t50[80]
+            x2@18,9[80]    =real  t61
+            t62            =real  t50[88]
+            x2@18,9[88]    =real  t62
+            t63            =real  t50[96]
+            x2@18,9[96]    =real  t63
+            t64            =real  t50[104]
+            x2@18,9[104]   =real  t64
+            t65            =real  t50[112]
+            x2@18,9[112]   =real  t65
+ l22:       t66            =int   x4@22,9 add_int 16
+            t67            =addr  x6@24,9[4]
+            t68            =addr  *t67
+            t69            =addr  t68[0]
+            t66[0]         =addr  t69
+            t70            =addr  t68[4]
+            t66[4]         =addr  t70
+ l23:       s1@33,9        =addr  a7@13,9
+ l24:       s2@34,9[0]     =addr  s1@33,9
+            s2@34,9[4]     =addr  str1
+            t71            =addr  *a8@14,9
+            s2@34,9[8]     =addr  t71
+ l25:       t72            =addr  s2@34,9[0]
+            s3@35,9[0]     =addr  t72
+            t73            =addr  s2@34,9[4]
+            s3@35,9[4]     =addr  t73
+            t74            =addr  s2@34,9[8]
+            s3@35,9[8]     =addr  t74
+ l26:       t75            =addr  &s2@34,9
+            s4@36,9        =addr  t75
+ l27:       s2@34,9[12]    =addr  s1@33,9
+ l28:       t76            =int   s3@35,9 add_int 12
+            t76[8]         =addr  str2
+ l29:       t77            =int   s3@35,9 add_int 24
+            t77[8]         =addr  s1@33,9
+ l30:       t78            =int   s3@35,9 add_int 12
+            t79            =addr  *s4@36,9
+            t80            =addr  t78[0]
+            t79[0]         =addr  t80
+            t81            =addr  t78[4]
+            t79[4]         =addr  t81
+            t82            =addr  t78[8]
+            t79[8]         =addr  t82
+ l31:       t83            =int   s3@35,9 add_int 24
+            t84            =addr  &t83
+            s4@36,9        =addr  t84
+ l0:        // Postamble main
+            return 
+
+############   Static Data  ############
+
+ str2:      "The almighty RNB Compilàà"
+ str0:      "ciao"
+ str1:      "mondo"
+

@@ -1,0 +1,588 @@
+===========================================================
+========================= TEST ============================
+===========================================================
+
+==Function and procedure test
+
+a : int;
+pa : °int := §a;
+ppa : °°int := §pa;
+
+array : Array <int> := [1,2,3];
+
+proc main () is
+ f();
+
+ parray : °Array <int> := §array;
+ x : int := array[1];
+ y : int := (°parray)[++a];
+
+ proc f () is
+   y : °°int := §°ppa;
+   x : int := °°ppa;
+   °°ppa := x;
+ end f
+
+ a : real;
+ a := °pa;
+end main
+
+proc f () is
+  array : Array <Array <real>> := [[1,2,3],
+                                  array,
+                                  create Array <int> (3)];
+  x : real := array[1][3];
+
+  return;
+
+  x := f(array[1]);
+
+  func f (x : ref Array<real>(3)) -> (r : real) is
+    r := 2 + 20*2;
+    const n : int := 7;
+    return;
+    r := array[1][n % 2];
+  end f
+end f
+
+const x : int := 3 + 4;
+const y : real := -(3.0 + 4);
+const z : real := 3.0 * x + 11;
+m : real := 7 / 2;
+
+proc g () is
+  const a : int := x * 5;
+  barray : Array<bool> := create Array<bool> (6*x % 2 + 1);
+  sarray : Array<string> := create Array<string> (a - 4*x -2);
+  if (sarray[1] = "") then
+    barray[x-x] := sarray[0] <> "";
+  end if
+
+  proc manin() is
+    s : string := "ciao";
+    ps : °string := §s;
+
+    return;
+
+    func fval (in : string) -> (s : string) is
+      in := "temporary";
+      s := "mondo";
+    end fval
+
+    func fvalres (in : valres string) -> (s : string) is
+      in := "overwritten";
+      const x : int := 8;
+      if (x = 5) then return; end if
+      s := "";
+    end fvalres
+
+    return;
+
+    const n : int := x;
+
+    func fres (in :  string) -> (s : string) is
+      s := "mondo";
+      return;
+      in := "copy-overwritten";
+    end fres
+
+    func fref (in : ref string) -> (s : string) is
+      s := "";
+      in := "";
+    end fref
+
+    return;
+
+    arrs : Array <string> := [s, fval(s)];
+  end manin
+end g
+
+===========================================================
+========================= RESULT ==========================
+===========================================================
+
+tests/demo03.r
+
+[PARSING]: PASS
+
+[Info]: Abstract Syntax Tree
+`- VarDecl 'a', <line:3,col:1>, int
+`- VarDef 'pa', <line:4,col:1>, °int
+| `- ExprAdress 
+|   `- LEId 'a', <line:4,col:15>
+`- VarDef 'ppa', <line:5,col:1>, °°int
+| `- ExprAdress 
+|   `- LEId 'pa', <line:5,col:17>
+`- VarDef 'array', <line:7,col:1>, Array <int>
+| `- ExprArray 
+|   `- ExprVal Int  1, <line:7,col:25>
+|   `- ExprVal Int  2, <line:7,col:27>
+|   `- ExprVal Int  3, <line:7,col:29>
+`- ProcDef'main', <line:9,col:6>
+| `- StmtExpr 
+| | `- ExprCall 'f', <line:10,col:2>
+| `- StmtDecl 
+| | `- VarDef 'parray', <line:12,col:2>, °Array <int>
+| |   `- ExprAdress 
+| |     `- LEId 'array', <line:12,col:28>
+| `- StmtDecl 
+| | `- VarDef 'x', <line:13,col:2>, int
+| |   `- ExprLeft 
+| |     `- LEArray 
+| |       `- LEId 'array', <line:13,col:13>
+| |       `- DimArray
+| |         `- ExprVal Int  1, <line:13,col:19>
+| `- StmtDecl 
+| | `- VarDef 'y', <line:14,col:2>, int
+| |   `- ExprLeft 
+| |     `- LEArray 
+| |       `- LEBra 
+| |       | `- LEDeref 
+| |       |   `- LEId 'parray', <line:14,col:15>
+| |       `- DimArray
+| |         `- ExprLeft 
+| |           `- LEPreIncrem 
+| |             `- LEId 'a', <line:14,col:25>
+| `- StmtDecl 
+| | `- ProcDef'f', <line:16,col:7>
+| |   `- StmtDecl 
+| |   | `- VarDef 'y', <line:17,col:4>, °°int
+| |   |   `- ExprAdress 
+| |   |     `- LEDeref 
+| |   |       `- LEId 'ppa', <line:17,col:19>
+| |   `- StmtDecl 
+| |   | `- VarDef 'x', <line:18,col:4>, int
+| |   |   `- ExprLeft 
+| |   |     `- LEDeref 
+| |   |       `- LEDeref 
+| |   |         `- LEId 'ppa', <line:18,col:17>
+| |   `- StmtAssign 
+| |     `- LEDeref 
+| |     | `- LEDeref 
+| |     |   `- LEId 'ppa', <line:19,col:6>
+| |     `- ExprLeft 
+| |       `- LEId 'x', <line:19,col:13>
+| `- StmtDecl 
+| | `- VarDecl 'a', <line:22,col:2>, real
+| `- StmtAssign 
+|   `- LEId 'a', <line:23,col:2>
+|   `- ExprLeft 
+|     `- LEDeref 
+|       `- LEId 'pa', <line:23,col:8>
+`- ProcDef'f', <line:26,col:6>
+| `- StmtDecl 
+| | `- VarDef 'array', <line:27,col:3>, Array <Array <real>>
+| |   `- ExprArray 
+| |     `- ExprArray 
+| |     | `- ExprVal Int  1, <line:27,col:37>
+| |     | `- ExprVal Int  2, <line:27,col:39>
+| |     | `- ExprVal Int  3, <line:27,col:41>
+| |     `- ExprLeft 
+| |     | `- LEId 'array', <line:28,col:35>
+| |     `- ExprCreate Array <int> 
+| |       `- ExprVal Int  3, <line:29,col:55>
+| `- StmtDecl 
+| | `- VarDef 'x', <line:30,col:3>, real
+| |   `- ExprLeft 
+| |     `- LEArray 
+| |       `- LEArray 
+| |       | `- LEId 'array', <line:30,col:15>
+| |       | `- DimArray
+| |       |   `- ExprVal Int  1, <line:30,col:21>
+| |       `- DimArray
+| |         `- ExprVal Int  3, <line:30,col:24>
+| `- StmtReturn 
+| `- StmtAssign 
+| | `- LEId 'x', <line:34,col:3>
+| | `- ExprCall 'f', <line:34,col:8>
+| |   `- ExprLeft 
+| |     `- LEArray 
+| |       `- LEId 'array', <line:34,col:10>
+| |       `- DimArray
+| |         `- ExprVal Int  1, <line:34,col:16>
+| `- StmtDecl 
+|   `- FuncDef 'f', <line:36,col:8>
+|     `- ModRef
+|     | `- 'x', <line:36,col:11>, Array <real>
+|     `- 'r', <line:36,col:39>, real
+|     `- StmtAssign 
+|     | `- LEId 'r', <line:37,col:5>
+|     | `- ExprSum 
+|     |   `- ExprVal Int  2, <line:37,col:10>
+|     |   `- ExprMul 
+|     |     `- ExprVal Int  20, <line:37,col:14>
+|     |     `- ExprVal Int  2, <line:37,col:17>
+|     `- StmtDecl 
+|     | `- ConstDef 'n', <line:38,col:11>, int
+|     |   `- ExprVal Int  7, <line:38,col:22>
+|     `- StmtReturn 
+|     `- StmtAssign 
+|       `- LEId 'r', <line:40,col:5>
+|       `- ExprLeft 
+|         `- LEArray 
+|           `- LEArray 
+|           | `- LEId 'array', <line:40,col:10>
+|           | `- DimArray
+|           |   `- ExprVal Int  1, <line:40,col:16>
+|           `- DimArray
+|             `- ExprMod 
+|               `- ExprLeft 
+|               | `- LEId 'n', <line:40,col:19>
+|               `- ExprVal Int  2, <line:40,col:23>
+`- ConstDef 'x', <line:44,col:7>, int
+| `- ExprSum 
+|   `- ExprVal Int  3, <line:44,col:18>
+|   `- ExprVal Int  4, <line:44,col:22>
+`- ConstDef 'y', <line:45,col:7>, real
+| `- ExprUnaryMinus 
+|   `- ExprBrack 
+|     `- ExprSum 
+|       `- ExprVal Real 3.0, <line:45,col:21>
+|       `- ExprVal Int  4, <line:45,col:27>
+`- ConstDef 'z', <line:46,col:7>, real
+| `- ExprSum 
+|   `- ExprMul 
+|   | `- ExprVal Real 3.0, <line:46,col:19>
+|   | `- ExprLeft 
+|   |   `- LEId 'x', <line:46,col:25>
+|   `- ExprVal Int  11, <line:46,col:29>
+`- VarDef 'm', <line:47,col:1>, real
+| `- ExprDiv 
+|   `- ExprVal Int  7, <line:47,col:13>
+|   `- ExprVal Int  2, <line:47,col:17>
+`- ProcDef'g', <line:49,col:6>
+  `- StmtDecl 
+  | `- ConstDef 'a', <line:50,col:9>, int
+  |   `- ExprMul 
+  |     `- ExprLeft 
+  |     | `- LEId 'x', <line:50,col:20>
+  |     `- ExprVal Int  5, <line:50,col:24>
+  `- StmtDecl 
+  | `- VarDef 'barray', <line:51,col:3>, Array <bool>
+  |   `- ExprCreate Array <bool> 
+  |     `- ExprSum 
+  |       `- ExprMod 
+  |       | `- ExprMul 
+  |       | | `- ExprVal Int  6, <line:51,col:47>
+  |       | | `- ExprLeft 
+  |       | |   `- LEId 'x', <line:51,col:49>
+  |       | `- ExprVal Int  2, <line:51,col:53>
+  |       `- ExprVal Int  1, <line:51,col:57>
+  `- StmtDecl 
+  | `- VarDef 'sarray', <line:52,col:3>, Array <string>
+  |   `- ExprCreate Array <string> 
+  |     `- ExprMinus 
+  |       `- ExprMinus 
+  |       | `- ExprLeft 
+  |       | | `- LEId 'a', <line:52,col:51>
+  |       | `- ExprMul 
+  |       |   `- ExprVal Int  4, <line:52,col:55>
+  |       |   `- ExprLeft 
+  |       |     `- LEId 'x', <line:52,col:57>
+  |       `- ExprVal Int  2, <line:52,col:60>
+  `- StmtIf 
+  | `- ExprBrack 
+  | | `- ExprRel
+  | |   `- ExprLeft 
+  | |   | `- LEArray 
+  | |   |   `- LEId 'sarray', <line:53,col:7>
+  | |   |   `- DimArray
+  | |   |     `- ExprVal Int  1, <line:53,col:14>
+  | |   `- RelEq
+  | |   `- ExprVal String "", <line:53,col:19>
+  | `- StmtAssign 
+  | | `- LEArray 
+  | | | `- LEId 'barray', <line:54,col:5>
+  | | | `- DimArray
+  | | |   `- ExprMinus 
+  | | |     `- ExprLeft 
+  | | |     | `- LEId 'x', <line:54,col:12>
+  | | |     `- ExprLeft 
+  | | |       `- LEId 'x', <line:54,col:14>
+  | | `- ExprRel
+  | |   `- ExprLeft 
+  | |   | `- LEArray 
+  | |   |   `- LEId 'sarray', <line:54,col:20>
+  | |   |   `- DimArray
+  | |   |     `- ExprVal Int  0, <line:54,col:27>
+  | |   `- RelNotEq
+  | |   `- ExprVal String "", <line:54,col:33>
+  | `- StmtNoElse
+  `- StmtDecl 
+    `- ProcDef'manin', <line:57,col:8>
+      `- StmtDecl 
+      | `- VarDef 's', <line:58,col:5>, string
+      |   `- ExprVal String "ciao", <line:58,col:19>
+      `- StmtDecl 
+      | `- VarDef 'ps', <line:59,col:5>, °string
+      |   `- ExprAdress 
+      |     `- LEId 's', <line:59,col:22>
+      `- StmtReturn 
+      `- StmtDecl 
+      | `- FuncDef 'fval', <line:63,col:10>
+      |   `- ModVal
+      |   | `- 'in', <line:63,col:16>, string
+      |   `- 's', <line:63,col:33>, string
+      |   `- StmtAssign 
+      |   | `- LEId 'in', <line:64,col:7>
+      |   | `- ExprVal String "temporary", <line:64,col:13>
+      |   `- StmtAssign 
+      |     `- LEId 's', <line:65,col:7>
+      |     `- ExprVal String "mondo", <line:65,col:12>
+      `- StmtDecl 
+      | `- FuncDef 'fvalres', <line:68,col:10>
+      |   `- ModValRes
+      |   | `- 'in', <line:68,col:19>, string
+      |   `- 's', <line:68,col:43>, string
+      |   `- StmtAssign 
+      |   | `- LEId 'in', <line:69,col:7>
+      |   | `- ExprVal String "overwritten", <line:69,col:13>
+      |   `- StmtDecl 
+      |   | `- ConstDef 'x', <line:70,col:13>, int
+      |   |   `- ExprVal Int  8, <line:70,col:24>
+      |   `- StmtIf 
+      |   | `- ExprBrack 
+      |   | | `- ExprRel
+      |   | |   `- ExprLeft 
+      |   | |   | `- LEId 'x', <line:71,col:11>
+      |   | |   `- RelEq
+      |   | |   `- ExprVal Int  5, <line:71,col:15>
+      |   | `- StmtReturn 
+      |   | `- StmtNoElse
+      |   `- StmtAssign 
+      |     `- LEId 's', <line:72,col:7>
+      |     `- ExprVal String "", <line:72,col:12>
+      `- StmtReturn 
+      `- StmtDecl 
+      | `- ConstDef 'n', <line:77,col:11>, int
+      |   `- ExprLeft 
+      |     `- LEId 'x', <line:77,col:22>
+      `- StmtDecl 
+      | `- FuncDef 'fres', <line:79,col:10>
+      |   `- ModVal
+      |   | `- 'in', <line:79,col:16>, string
+      |   `- 's', <line:79,col:34>, string
+      |   `- StmtAssign 
+      |   | `- LEId 's', <line:80,col:7>
+      |   | `- ExprVal String "mondo", <line:80,col:12>
+      |   `- StmtReturn 
+      |   `- StmtAssign 
+      |     `- LEId 'in', <line:82,col:7>
+      |     `- ExprVal String "copy-overwritten", <line:82,col:13>
+      `- StmtDecl 
+      | `- FuncDef 'fref', <line:85,col:10>
+      |   `- ModRef
+      |   | `- 'in', <line:85,col:16>, string
+      |   `- 's', <line:85,col:37>, string
+      |   `- StmtAssign 
+      |   | `- LEId 's', <line:86,col:7>
+      |   | `- ExprVal String "", <line:86,col:12>
+      |   `- StmtAssign 
+      |     `- LEId 'in', <line:87,col:7>
+      |     `- ExprVal String "", <line:87,col:13>
+      `- StmtReturn 
+      `- StmtDecl 
+        `- VarDef 'arrs', <line:92,col:5>, Array <string>
+          `- ExprArray 
+            `- ExprLeft 
+            | `- LEId 's', <line:92,col:31>
+            `- ExprCall 'fval', <line:92,col:34>
+              `- ExprLeft 
+                `- LEId 's', <line:92,col:39>
+
+
+[Warning]: Dead code after 'return' statement. (line: 32, column: 3) [ControlFlowAnalysis].
+  return;
+~~^
+[Warning]: Dead code after 'return' statement. (line: 39, column: 5) [ControlFlowAnalysis].
+    return;
+~~~~^
+[Warning]: Dead code after 'return' statement. (line: 61, column: 5) [ControlFlowAnalysis].
+    return;
+~~~~^
+[Warning]: The return variable 's' may be never initialized. (line: 68, column: 43) [ControlFlowAnalysis].
+    func fvalres (in : valres string) -> (s : string) is
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+[Warning]: Dead code after 'return' statement. (line: 75, column: 5) [ControlFlowAnalysis].
+    return;
+~~~~^
+[Warning]: Dead code after 'return' statement. (line: 81, column: 7) [ControlFlowAnalysis].
+      return;
+~~~~~~^
+[Warning]: Dead code after 'return' statement. (line: 90, column: 5) [ControlFlowAnalysis].
+    return;
+~~~~^
+
+[Warning]: Found 7 warnigs.
+[Info]: TAC Generator
+                 a@3,1             =int   0
+                 t0                =addr  &a@3,1
+                 pa@4,1            =addr  t0
+                 t1                =addr  &pa@4,1
+                 ppa@5,1           =addr  t1
+                 array@7,1[0]      =int   1
+                 array@7,1[4]      =int   2
+                 array@7,1[8]      =int   3
+                 // Constant x@44,7 has value 7
+                 // Constant y@45,7 has value -7.0
+                 // Constant z@46,7 has value 32.0
+                 m@47,1            =real  3.5
+                 call main@9,6
+                 exit 
+ 
+ main@9,6:       // Preamble main
+                 // Body main
+                 call f@16,7
+ l1:             t2                =addr  &array@7,1
+                 parray@12,2       =addr  t2
+ l2:             t3                =int   array@7,1[4]
+                 x@13,2            =int   t3
+ l3:             t4                =int   a@3,1 add_int 1
+                 a@3,1             =int   t4
+                 t5                =int   a@3,1
+                 t6                =int   t5 mul_int 4
+                 t7                =addr  *parray@12,2
+                 t8                =int   t7[t6]
+                 y@14,2            =int   t8
+ l4:             a@22,2            =real  0.0
+ l8:             t12               =int   *pa@4,1
+                 t13               =real  conv_int_to_real t12
+                 a@22,2            =real  t13
+ l0:             // Postamble main
+                 return 
+ 
+ f@16,7:         // Preamble f
+                 // Body f
+                 y@17,4            =addr  ppa@5,1
+ l6:             t9                =addr  *ppa@5,1
+                 t10               =int   *t9
+                 x@18,4            =int   t10
+ l7:             t11               =addr  *ppa@5,1
+                 *t11              =int   x@18,4
+ l5:             // Postamble f
+                 return 
+ 
+ f@26,6:         // Preamble f
+                 // Body f
+                 array@27,3[0]     =real  1.0
+                 array@27,3[8]     =real  2.0
+                 array@27,3[16]    =real  3.0
+                 t14               =int   array@7,1[0]
+                 t15               =real  conv_int_to_real t14
+                 array@27,3[24]    =real  t15
+                 t16               =int   array@7,1[4]
+                 t17               =real  conv_int_to_real t16
+                 array@27,3[32]    =real  t17
+                 t18               =int   array@7,1[8]
+                 t19               =real  conv_int_to_real t18
+                 array@27,3[40]    =real  t19
+                 array@27,3[48]    =real  0.0
+                 array@27,3[56]    =real  0.0
+                 array@27,3[64]    =real  0.0
+ l10:            t20               =int   array@27,3 add_int 24
+                 t21               =real  t20[24]
+                 x@30,3            =real  t21
+ l11:            goto l9
+ l12:            t22               =int   array@27,3 add_int 24
+                 param t22
+                 t23               =real  call f@36,8
+                 x@30,3            =real  t23
+ l9:             // Postamble f
+                 return 
+ 
+ f@36,8:         // Preamble f
+                 r@36,39           =real  0.0
+                 // Body f
+                 r@36,39           =real  42.0
+ l14:            // Constant n@38,11 has value 7
+ l15:            goto l13
+ l16:            t24               =int   array@27,3 add_int 24
+                 t25               =real  t24[8]
+                 r@36,39           =real  t25
+ l13:            // Postamble f
+                 return r@36,39
+ 
+ g@49,6:         // Preamble g
+                 // Body g
+                 // Constant a@50,9 has value 35
+ l18:            barray@51,3[0]    =bool  False
+ l19:            sarray@52,3[0]    =addr  str0
+                 sarray@52,3[4]    =addr  str0
+                 sarray@52,3[8]    =addr  str0
+                 sarray@52,3[12]   =addr  str0
+                 sarray@52,3[16]   =addr  str0
+ l20:            t26               =addr  sarray@52,3[4]
+                 ifRel (t26 not_eq_addr str0) goto l17
+                 t27               =addr  sarray@52,3[0]
+                 ifRel (t27 equal_addr str0) goto l22
+                 t28               =bool  True
+                 goto l21
+ l22:            t28               =bool  False
+ l21:            barray@51,3[0]    =bool  t28
+ l17:            // Postamble g
+                 return 
+ 
+ manin@57,8:     // Preamble manin
+                 // Body manin
+                 s@58,5            =addr  str1
+ l24:            t29               =addr  &s@58,5
+                 ps@59,5           =addr  t29
+ l25:            goto l23
+ l28:            goto l23
+ l33:            // Constant n@77,11 has value 7
+ l37:            goto l23
+ l40:            arrs@92,5[0]      =addr  s@58,5
+                 t30               =addr  s@58,5
+                 param t30
+                 t31               =addr  call fval@63,10
+                 arrs@92,5[4]      =addr  t31
+ l23:            // Postamble manin
+                 return 
+ 
+ fval@63,10:     // Preamble fval
+                 s@63,33           =addr  str0
+                 // Body fval
+                 in@63,16          =addr  str2
+ l27:            s@63,33           =addr  str3
+ l26:            // Postamble fval
+                 return s@63,33
+ 
+ fvalres@68,10:  // Preamble fvalres
+                 in@68,19$copy     =addr  in@68,19
+                 s@68,43           =addr  str0
+                 // Body fvalres
+                 in@68,19$copy     =addr  str4
+ l30:            // Constant x@70,13 has value 8
+ l31:            goto l32
+                 goto l29
+ l32:            s@68,43           =addr  str0
+ l29:            // Postamble fvalres
+                 in@68,19          =addr  in@68,19$copy
+                 return s@68,43
+ 
+ fres@79,10:     // Preamble fres
+                 s@79,34           =addr  str0
+                 // Body fres
+                 s@79,34           =addr  str3
+ l35:            goto l34
+ l36:            in@79,16          =addr  str5
+ l34:            // Postamble fres
+                 return s@79,34
+ 
+ fref@85,10:     // Preamble fref
+                 s@85,37           =addr  str0
+                 // Body fref
+                 s@85,37           =addr  str0
+ l39:            in@85,16          =addr  str0
+ l38:            // Postamble fref
+                 return s@85,37
+
+############   Static Data  ############
+
+ str0:           ""
+ str1:           "ciao"
+ str5:           "copy-overwritten"
+ str3:           "mondo"
+ str4:           "overwritten"
+ str2:           "temporary"
+

@@ -1,0 +1,420 @@
+===========================================================
+========================= TEST ============================
+===========================================================
+
+==IMPY tests
+
+const PP : int := 1;
+const KK : int := 3+PP;
+
+w : int := 5;
+r : int := 2; 
+u : Array<int> := [w*(KK+1-r),-w];
+a : int := u[r];
+mat : Array<Array<int>> :=[[1,2+KK],[3,4]];
+pi : °int := §w;
+x : real := 5+f(r);
+
+proc main() is
+
+  func f (k : ref int) -> (c : int ) is
+    k++;
+    c := c + ++k;
+    return;
+  end f 
+  
+  c : char  := 'r';
+  
+  u[w] := r+f(r);
+  mat[r][a] := 0;
+  
+  if (c>PP) then mat[r][a]++; end if
+  
+  r := u[r++]++;
+  
+  u[++r] := u[++r] + u[r++];
+  
+  r := r + (°pi)++;
+  
+  for ( w: int  := 'a' -> 2) 
+    u[r++] := w + r *°pi;
+    r := u[w];
+  end for  
+  
+  w := w++;
+end main
+
+func f ( k : valres int ) -> (c : int) is
+  k++;
+  c := ++k+2;
+  return;
+end f
+
+===========================================================
+========================= RESULT ==========================
+===========================================================
+
+tests/demo06.r
+
+[PARSING]: PASS
+
+[Info]: Abstract Syntax Tree
+`- ConstDef 'PP', <line:3,col:7>, int
+| `- ExprVal Int  1, <line:3,col:19>
+`- ConstDef 'KK', <line:4,col:7>, int
+| `- ExprSum 
+|   `- ExprVal Int  3, <line:4,col:19>
+|   `- ExprLeft 
+|     `- LEId 'PP', <line:4,col:21>
+`- VarDef 'w', <line:6,col:1>, int
+| `- ExprVal Int  5, <line:6,col:12>
+`- VarDef 'r', <line:7,col:1>, int
+| `- ExprVal Int  2, <line:7,col:12>
+`- VarDef 'u', <line:8,col:1>, Array <int>
+| `- ExprArray 
+|   `- ExprMul 
+|   | `- ExprLeft 
+|   | | `- LEId 'w', <line:8,col:20>
+|   | `- ExprBrack 
+|   |   `- ExprMinus 
+|   |     `- ExprSum 
+|   |     | `- ExprLeft 
+|   |     | | `- LEId 'KK', <line:8,col:23>
+|   |     | `- ExprVal Int  1, <line:8,col:26>
+|   |     `- ExprLeft 
+|   |       `- LEId 'r', <line:8,col:28>
+|   `- ExprUnaryMinus 
+|     `- ExprLeft 
+|       `- LEId 'w', <line:8,col:32>
+`- VarDef 'a', <line:9,col:1>, int
+| `- ExprLeft 
+|   `- LEArray 
+|     `- LEId 'u', <line:9,col:12>
+|     `- DimArray
+|       `- ExprLeft 
+|         `- LEId 'r', <line:9,col:14>
+`- VarDef 'mat', <line:10,col:1>, Array <Array <int>>
+| `- ExprArray 
+|   `- ExprArray 
+|   | `- ExprVal Int  1, <line:10,col:29>
+|   | `- ExprSum 
+|   |   `- ExprVal Int  2, <line:10,col:31>
+|   |   `- ExprLeft 
+|   |     `- LEId 'KK', <line:10,col:33>
+|   `- ExprArray 
+|     `- ExprVal Int  3, <line:10,col:38>
+|     `- ExprVal Int  4, <line:10,col:40>
+`- VarDef 'pi', <line:11,col:1>, °int
+| `- ExprAdress 
+|   `- LEId 'w', <line:11,col:15>
+`- VarDef 'x', <line:12,col:1>, real
+| `- ExprSum 
+|   `- ExprVal Int  5, <line:12,col:13>
+|   `- ExprCall 'f', <line:12,col:15>
+|     `- ExprLeft 
+|       `- LEId 'r', <line:12,col:17>
+`- ProcDef'main', <line:14,col:6>
+| `- StmtDecl 
+| | `- FuncDef 'f', <line:16,col:8>
+| |   `- ModRef
+| |   | `- 'k', <line:16,col:11>, int
+| |   `- 'c', <line:16,col:28>, int
+| |   `- StmtExpr 
+| |   | `- ExprPostIncr
+| |   |   `- LEId 'k', <line:17,col:5>
+| |   `- StmtAssign 
+| |   | `- LEId 'c', <line:18,col:5>
+| |   | `- ExprSum 
+| |   |   `- ExprLeft 
+| |   |   | `- LEId 'c', <line:18,col:10>
+| |   |   `- ExprLeft 
+| |   |     `- LEPreIncrem 
+| |   |       `- LEId 'k', <line:18,col:16>
+| |   `- StmtReturn 
+| `- StmtDecl 
+| | `- VarDef 'c', <line:22,col:3>, char
+| |   `- ExprVal Char 'r', <line:22,col:16>
+| `- StmtAssign 
+| | `- LEArray 
+| | | `- LEId 'u', <line:24,col:3>
+| | | `- DimArray
+| | |   `- ExprLeft 
+| | |     `- LEId 'w', <line:24,col:5>
+| | `- ExprSum 
+| |   `- ExprLeft 
+| |   | `- LEId 'r', <line:24,col:11>
+| |   `- ExprCall 'f', <line:24,col:13>
+| |     `- ExprLeft 
+| |       `- LEId 'r', <line:24,col:15>
+| `- StmtAssign 
+| | `- LEArray 
+| | | `- LEArray 
+| | | | `- LEId 'mat', <line:25,col:3>
+| | | | `- DimArray
+| | | |   `- ExprLeft 
+| | | |     `- LEId 'r', <line:25,col:7>
+| | | `- DimArray
+| | |   `- ExprLeft 
+| | |     `- LEId 'a', <line:25,col:10>
+| | `- ExprVal Int  0, <line:25,col:16>
+| `- StmtIf 
+| | `- ExprBrack 
+| | | `- ExprRel
+| | |   `- ExprLeft 
+| | |   | `- LEId 'c', <line:27,col:7>
+| | |   `- RelGrater
+| | |   `- ExprLeft 
+| | |     `- LEId 'PP', <line:27,col:9>
+| | `- StmtExpr 
+| | | `- ExprPostIncr
+| | |   `- LEArray 
+| | |     `- LEArray 
+| | |     | `- LEId 'mat', <line:27,col:18>
+| | |     | `- DimArray
+| | |     |   `- ExprLeft 
+| | |     |     `- LEId 'r', <line:27,col:22>
+| | |     `- DimArray
+| | |       `- ExprLeft 
+| | |         `- LEId 'a', <line:27,col:25>
+| | `- StmtNoElse
+| `- StmtAssign 
+| | `- LEId 'r', <line:29,col:3>
+| | `- ExprPostIncr
+| |   `- LEArray 
+| |     `- LEId 'u', <line:29,col:8>
+| |     `- DimArray
+| |       `- ExprPostIncr
+| |         `- LEId 'r', <line:29,col:10>
+| `- StmtAssign 
+| | `- LEArray 
+| | | `- LEId 'u', <line:31,col:3>
+| | | `- DimArray
+| | |   `- ExprLeft 
+| | |     `- LEPreIncrem 
+| | |       `- LEId 'r', <line:31,col:7>
+| | `- ExprSum 
+| |   `- ExprLeft 
+| |   | `- LEArray 
+| |   |   `- LEId 'u', <line:31,col:13>
+| |   |   `- DimArray
+| |   |     `- ExprLeft 
+| |   |       `- LEPreIncrem 
+| |   |         `- LEId 'r', <line:31,col:17>
+| |   `- ExprLeft 
+| |     `- LEArray 
+| |       `- LEId 'u', <line:31,col:22>
+| |       `- DimArray
+| |         `- ExprPostIncr
+| |           `- LEId 'r', <line:31,col:24>
+| `- StmtAssign 
+| | `- LEId 'r', <line:33,col:3>
+| | `- ExprSum 
+| |   `- ExprLeft 
+| |   | `- LEId 'r', <line:33,col:8>
+| |   `- ExprPostIncr
+| |     `- LEBra 
+| |       `- LEDeref 
+| |         `- LEId 'pi', <line:33,col:14>
+| `- StmtFor
+| | `- VarDef 'w', <line:35,col:9>, int
+| | | `- ExprVal Char 'a', <line:35,col:20>
+| | `- FromTo
+| | `- ExprVal Int  2, <line:35,col:27>
+| | `- StmtAssign 
+| | | `- LEArray 
+| | | | `- LEId 'u', <line:36,col:5>
+| | | | `- DimArray
+| | | |   `- ExprPostIncr
+| | | |     `- LEId 'r', <line:36,col:7>
+| | | `- ExprSum 
+| | |   `- ExprLeft 
+| | |   | `- LEId 'w', <line:36,col:15>
+| | |   `- ExprMul 
+| | |     `- ExprLeft 
+| | |     | `- LEId 'r', <line:36,col:19>
+| | |     `- ExprLeft 
+| | |       `- LEDeref 
+| | |         `- LEId 'pi', <line:36,col:23>
+| | `- StmtAssign 
+| |   `- LEId 'r', <line:37,col:5>
+| |   `- ExprLeft 
+| |     `- LEArray 
+| |       `- LEId 'u', <line:37,col:10>
+| |       `- DimArray
+| |         `- ExprLeft 
+| |           `- LEId 'w', <line:37,col:12>
+| `- StmtAssign 
+|   `- LEId 'w', <line:40,col:3>
+|   `- ExprPostIncr
+|     `- LEId 'w', <line:40,col:8>
+`- FuncDef 'f', <line:43,col:6>
+  `- ModValRes
+  | `- 'k', <line:43,col:10>, int
+  `- 'c', <line:43,col:31>, int
+  `- StmtExpr 
+  | `- ExprPostIncr
+  |   `- LEId 'k', <line:44,col:3>
+  `- StmtAssign 
+  | `- LEId 'c', <line:45,col:3>
+  | `- ExprSum 
+  |   `- ExprLeft 
+  |   | `- LEPreIncrem 
+  |   |   `- LEId 'k', <line:45,col:10>
+  |   `- ExprVal Int  2, <line:45,col:12>
+  `- StmtReturn 
+
+
+
+[STATIC ANALYSIS]: PASS
+[Info]: TAC Generator
+             // Constant PP@3,7 has value 1
+             // Constant KK@4,7 has value 4
+             w@6,1          =int   5
+             r@7,1          =int   2
+             t0             =int   w@6,1
+             t1             =int   5 sub_int r@7,1
+             t2             =int   t0 mul_int t1
+             u@8,1[0]       =int   t2
+             t3             =int   negate_int w@6,1
+             u@8,1[4]       =int   t3
+             t4             =int   r@7,1
+             t5             =int   t4 mul_int 4
+             t6             =int   u@8,1[t5]
+             a@9,1          =int   t6
+             mat@10,1[0]    =int   1
+             mat@10,1[4]    =int   6
+             mat@10,1[8]    =int   3
+             mat@10,1[12]   =int   4
+             t7             =addr  &w@6,1
+             pi@11,1        =addr  t7
+             t8             =addr  &r@7,1
+             param t8
+             t9             =int   call f@43,6
+             t10            =int   5 add_int t9
+             t11            =real  conv_int_to_real t10
+             x@12,1         =real  t11
+             call main@14,6
+             exit 
+ 
+ main@14,6:  // Preamble main
+             // Body main
+ l1:         c@22,3         =char  'r'
+ l5:         t19            =int   w@6,1
+             t20            =int   t19 mul_int 4
+             t21            =int   r@7,1
+             t22            =addr  &r@7,1
+             param t22
+             t23            =int   call f@16,8
+             t24            =int   t21 add_int t23
+             u@8,1[t20]     =int   t24
+ l6:         t25            =int   r@7,1
+             t26            =int   t25 mul_int 8
+             t27            =int   mat@10,1 add_int t26
+             t28            =int   a@9,1
+             t29            =int   t28 mul_int 4
+             t27[t29]       =int   0
+ l7:         t30            =char  c@22,3
+             t31            =int   conv_char_to_int t30
+             ifRel (t31 less_eq_int 1) goto l8
+             t32            =int   r@7,1
+             t33            =int   t32 mul_int 8
+             t34            =int   mat@10,1 add_int t33
+             t35            =int   a@9,1
+             t36            =int   t35 mul_int 4
+             t37            =int   t34[t36]
+             t38            =int   t37 add_int 1
+             t34[t36]       =int   t38
+ l8:         t39            =int   r@7,1
+             t40            =int   t39 add_int 1
+             r@7,1          =int   t40
+             t41            =int   t39
+             t42            =int   t41 mul_int 4
+             t43            =int   u@8,1[t42]
+             t44            =int   t43 add_int 1
+             u@8,1[t42]     =int   t44
+             r@7,1          =int   t43
+ l9:         t45            =int   r@7,1 add_int 1
+             r@7,1          =int   t45
+             t46            =int   r@7,1
+             t47            =int   t46 mul_int 4
+             t48            =int   r@7,1 add_int 1
+             r@7,1          =int   t48
+             t49            =int   r@7,1
+             t50            =int   t49 mul_int 4
+             t51            =int   u@8,1[t50]
+             t52            =int   r@7,1
+             t53            =int   t52 add_int 1
+             r@7,1          =int   t53
+             t54            =int   t52
+             t55            =int   t54 mul_int 4
+             t56            =int   u@8,1[t55]
+             t57            =int   t51 add_int t56
+             u@8,1[t47]     =int   t57
+ l10:        t58            =int   r@7,1
+             t59            =int   *pi@11,1
+             t60            =int   t59 add_int 1
+             *pi@11,1       =int   t60
+             t61            =int   t58 add_int t59
+             r@7,1          =int   t61
+ l11:        w@35,9         =int   97
+             goto l14
+ l13:        t62            =int   r@7,1
+             t63            =int   t62 add_int 1
+             r@7,1          =int   t63
+             t64            =int   t62
+             t65            =int   t64 mul_int 4
+             t66            =int   w@35,9
+             t67            =int   r@7,1
+             t68            =int   *pi@11,1
+             t69            =int   t67 mul_int t68
+             t70            =int   t66 add_int t69
+             u@8,1[t65]     =int   t70
+ l16:        t71            =int   w@35,9
+             t72            =int   t71 mul_int 4
+             t73            =int   u@8,1[t72]
+             r@7,1          =int   t73
+ l15:        t74            =int   w@35,9 add_int 1
+             w@35,9         =int   t74
+ l14:        ifRel (w@35,9 less_eq_int 2) goto l13
+ l12:        t75            =int   w@6,1
+             t76            =int   t75 add_int 1
+             w@6,1          =int   t76
+             w@6,1          =int   t75
+ l0:         // Postamble main
+             return 
+ 
+ f@16,8:     // Preamble f
+             c@16,28        =int   0
+             // Body f
+             t12            =int   *k@16,11
+             t13            =int   t12 add_int 1
+             *k@16,11       =int   t13
+ l3:         t14            =int   c@16,28
+             t15            =int   *k@16,11
+             t16            =int   t15 add_int 1
+             *k@16,11       =int   t16
+             t17            =int   *k@16,11
+             t18            =int   t14 add_int t17
+             c@16,28        =int   t18
+ l4:         goto l2
+ l2:         // Postamble f
+             return c@16,28
+ 
+ f@43,6:     // Preamble f
+             t77            =int   *k@43,10
+             k@43,10$copy   =int   t77
+             c@43,31        =int   0
+             // Body f
+             t78            =int   k@43,10$copy
+             t79            =int   t78 add_int 1
+             k@43,10$copy   =int   t79
+ l18:        t80            =int   k@43,10$copy add_int 1
+             k@43,10$copy   =int   t80
+             t81            =int   k@43,10$copy
+             t82            =int   t81 add_int 2
+             c@43,31        =int   t82
+ l19:        goto l17
+ l17:        // Postamble f
+             *k@43,10       =int   k@43,10$copy
+             return c@43,31
+

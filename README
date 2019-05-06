@@ -1,0 +1,19 @@
+           ___  _  _____  _____
+          / _ \/ |/ / _ )/ ___/
+         / , _/    / _  / /__
+        /_/|_/_/|_/____/\___/ompiler
+
+
+Riportiamo i comandi necessari per utilizzare RNBC:
+- make          : compila i sorgenti e genera l'eseguibile `rnbc'
+- make demo     : esegue i test della cartella `tests' stampando il TAC generato su std-output
+                  L'output generato verrà salvato anche nei file della cartella `results'
+                  insieme ai sorgenti dei tests.
+- make analysis : esegue i test relativi all'analisi statica, per controllare gli errori prodotti.
+
+
+Si possono utilizzare le seguenti opzioni nell'esecuzione di ./rnbc:
+  (files)               Parse content of files verbosely.
+  --verbose (files)     Show all prints.
+  --silent (files)      Remove all prints.
+  --nocolor (files)     Print output without colors.

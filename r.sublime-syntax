@@ -1,0 +1,58 @@
+%YAML 1.2
+---
+
+name: RNB
+file_extensions:
+  - [r R]
+scope: RNBscheme
+variables:
+  ident: '[A-Za-z_][A-Za-z_0-9]*'
+contexts:
+  prototype:
+    - include: comments
+  comments:
+    # Block comments begin with {=  and ends with =}
+    - match: '{='
+      scope: punctuation.definition.comment.c
+      push: 
+        - meta_scope: comment.block.c
+        - match: '=}'
+          pop: true
+    # Inline comments begin with a '==' and finish at the end of the line.
+    - match: '=='
+      scope: punctuation.definition.comment.c
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: comment.line.double-slash.c
+        - match: $\n?
+          pop: true
+  main:
+    - match: '\b(if|else|loop|end|elseif|case|ref|const|valres|res|while|create|exit|exiton|local|do|until|for|foreach|continue|return|proc|func|is| and| or| not)\b'
+      scope: constant.language
+    - match: '\b(int|real|char|string|bool|Array)\b'
+      scope: storage.type
+
+    - match: '\b{{ident}}\b'
+      scope: entity.name.function
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: '"'
+      scope: punctuation.definition.string.begin.example-c
+      push: double_quoted_string
+
+    # Comments begin with a '==' and finish at the end of the line
+
+    
+
+    # Numbers
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric
+
+  double_quoted_string:
+    - meta_scope: entity.name.tag
+    - match: '\\.'
+      scope: entity.name.tag
+    - match: '"'
+      scope: punctuation.definition.string.end
+      pop: true
+

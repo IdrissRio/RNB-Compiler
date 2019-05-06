@@ -1,0 +1,163 @@
+entrypoints Program;
+
+
+Start.   Program ::= [Decl];
+
+position token BTry ({"try"});
+position token BCatch ({"catch"});
+position token BLoop ({"loop"});
+position token BCase ({"case"});
+position token BAss ({":="});
+position token BPlus ({"+"});
+position token BMinus ({"-"});
+position token BDiv ({"/"});
+position token BMul ({"*"});
+position token BUpTo ({"^"});
+position token BMod ({"%"});
+position token BAnd ({"and"});
+position token BOr ({"or"});
+position token BNot ({"not"});
+position token BLBra ({"["});
+position token BLe ({"<"});
+position token BLeEq ({"<="});
+position token BGr ({">"});
+position token BGrEq({">="});
+position token BNotEq ({"<>"});
+position token BEq ({"="});
+position token BBool ({"True"} | {"False"}) ;
+position token BReturn ({"return"}) ;
+position token BExit ({"exit"}) ;
+position token BContinue ({"continue"}) ;
+position token BExitOn ({"exiton"});
+position token BIdent (letter | '_')(letter | digit | '_')*;
+position token BInteger (digit+) ;
+position token BReal (digit+ '.' digit+ ('e' '-'? digit+)?) ;
+position token BChar ('\'' ((char - ["'\\"]) | ('\\' ["'\\nt"])) '\'') ;
+position token BString ('"' ((char - ["\"\\"]) | ('\\' ["\"\\nt"]))* '"') ;
+
+
+
+VarDecl.    Decl ::= BIdent ":" Type ";";
+VarDef.     Decl ::= BIdent ":" Type BAss Expr ";" ;
+ConstDef.   Decl ::= "const" BIdent ":" Type BAss Expr ";";
+FuncDef.    Decl ::= "func" BIdent "(" [Param] ")" "->" "(" BIdent ":" Type ")" "is" [Stmt] "end" BIdent;
+ProcDef.    Decl ::= "proc" BIdent "(" [Param] ")" "is" [Stmt] "end" BIdent;
+separator   Decl "";
+
+Parameter.  Param ::= BIdent ":" Mod Type;
+separator   Param ",";
+
+ModRef.     Mod ::= "ref";
+ModVal.     Mod ::= {- empty -};
+ModConst.   Mod ::= "const";
+ModValRes.  Mod ::= "valres";
+
+
+
+ExprVal.         Expr7 ::= Val;
+ExprArray.       Expr7 ::= BLBra [Expr]"]";
+ExprCreate.      Expr7 ::= "create" "Array" BLe Type BGr "(" Expr ")";
+ExprAddress.     Expr7 ::= "§" LeftExpr;
+ExprLeft.        Expr7 ::= LeftExpr;
+ExprCall.        Expr6 ::= BIdent "(" [Expr]")";
+ExprBrack.       Expr6 ::= "(" Expr ")";
+ExprPostIncr.    Expr6 ::= LeftExpr"++";
+ExprPostDecr.    Expr6 ::= LeftExpr"--";
+ExprPow.         Expr5 ::= Expr5 BUpTo Expr6;
+ExprMul.         Expr3 ::= Expr3 BMul Expr4;
+ExprMod.         Expr3 ::= Expr3 BMod Expr4;
+ExprDiv.         Expr3 ::= Expr3 BDiv Expr4;
+ExprSum.         Expr2 ::= Expr2 BPlus Expr3;
+ExprMinus.       Expr2 ::= Expr2 BMinus Expr3;
+ExprUnaryMinus.  Expr3 ::= BMinus Expr5;
+ExprUnaryPlus.   Expr3 ::= BPlus Expr5;
+ExprAnd.         Expr1 ::= Expr1 BAnd Expr2;
+ExprOr.          Expr0 ::= Expr0 BOr Expr1;
+ExprNot.         Expr2 ::= BNot Expr3;
+ExprRel.         Expr0 ::= Expr0 Rel Expr1;
+ExprIf.			 Expr  ::= Expr0 "if" Expr0 "else" Expr0;
+_.  Expr  ::= Expr0;
+_.  Expr0 ::= Expr1;
+_.  Expr1 ::= Expr2;
+_.  Expr2 ::= Expr3;
+_.  Expr3 ::= Expr4;
+_.  Expr4 ::= Expr5;
+_.  Expr5 ::= Expr6;
+_.  Expr6 ::= Expr7;
+
+separator Expr ",";
+
+RelLess.         Rel ::= BLe;
+RelLessEq.       Rel ::= BLeEq;
+RelGreater.      Rel ::= BGr;
+RelGreaterEq.    Rel ::= BGrEq;
+RelNotEq.        Rel ::= BNotEq;
+RelEq.           Rel ::= BEq;
+
+
+StmtAssign.      Stmt ::= LeftExpr BAss Expr ";";
+StmtIf.          Stmt ::= "if" Expr "then" [Stmt] ElseStmt "end" "if";
+StmtElseIf.      ElseStmt ::= "elseif" Expr "then" [Stmt] ElseStmt;
+StmtElse.        ElseStmt ::= "else" [Stmt];
+StmtNoElse.      ElseStmt ::= {- empty -};
+StmtLoop.        Stmt ::= BLoop [Stmt] "end" BLoop ;
+StmtLoopCmd.     Stmt ::= LoopCmd ";";
+StmtFor.		 Stmt ::= "for" "("  BIdent ":" BType BAss Expr Dir Expr  ")" [Stmt] "end" "for";
+StmtReturn.      Stmt ::= BReturn ";";
+StmtCase.        Stmt ::= BCase Expr "of" Cases "end" BCase;
+StmtLocal.       Stmt ::= "local" [Stmt] "end" "local";
+StmtDecl.        Stmt ::= Decl;
+StmtExpr.        Stmt ::= Expr ";";
+StmtTryCatch.    Stmt ::= BTry [Stmt] BCatch [Stmt] "end" BCatch	;
+separator Stmt "";
+
+FromTo. 		 Dir ::= "->";
+DownTo.			 Dir ::= "<-";
+
+
+
+LoopExitOn.     LoopCmd ::= BExitOn Expr;
+LoopExit.       LoopCmd ::= BExit;
+LoopContinue.   LoopCmd ::= BContinue;
+
+CaseEps.       Cases::= {- empty -};
+CaseDefault.   Cases::= "else " [Stmt];
+CaseVal.       Cases::= Expr "->" [Stmt] Cases;
+
+
+LEId.        LeftExpr1 ::= BIdent;
+LEArray.     LeftExpr1 ::= LeftExpr1 Dim;
+LEBra.       LeftExpr1 ::= "(" LeftExpr ")";
+LEDeref.     LeftExpr ::= "°" LeftExpr;
+LEPreIncrem. LeftExpr  ::= "++"LeftExpr;
+LEPreDecr.   LeftExpr  ::= "--"LeftExpr;
+_.           LeftExpr  ::= LeftExpr1;
+
+DimArray.    Dim ::= BLBra Expr "]";
+
+IntVal.      Val ::= BInteger;
+RealVal.     Val ::= BReal;
+CharVal.     Val ::= BChar;
+BoolVal.     Val ::= BBool;
+StringVal.   Val ::= BString;
+
+
+BasicType.   	Type ::= BType;
+ArrayType.   	Type ::= "Array" BLe Type BGr;
+ArrayDimType.   Type ::= "Array" BLe Type BGr "(" Expr ")";
+PointerType. 	Type ::= "°" Type;
+
+
+TypeInt.     BType ::= "int";
+TypeReal.    BType ::= "real";
+TypeChar.    BType ::= "char";
+TypeBool.    BType ::= "bool";
+TypeString.  BType ::= "string";
+
+
+
+comment "==";
+comment "{=" "=}";
+
+
+

@@ -1,0 +1,408 @@
+===========================================================
+========================= TEST ============================
+===========================================================
+
+== For and try catch test
+
+proc main() is
+
+	const x : char := 'x';
+	x1 : int := x;
+	x2 : string := x;
+
+
+	x3 : int := x1 +1 % 'c' ^ 2;
+	x4 : Array<char> := ['a','b','a','\n','\\']; 
+	x5 : Array<string> := x4;
+
+	x5[1+1] := x4['s' if True else 'c'];
+
+	for(x : int := 'c' -> ' ')
+		 
+		 x1 : real := '\\';
+		 x2 : char := 'd';
+		 x1 := x4[x2];
+
+		 x4 : bool := "cia" = x2;
+		 x4 := 1=1.0;
+		 x4 := 1='c';
+		 x4 := 10 = '\n';
+		 x4 := "cia" <> 'c';
+		 x4 := 'c' < 1;
+
+	end for
+
+	try 
+
+		x1 : int := 1 if True else 2;
+		x2 : bool := True if x1 = x1 else False;
+
+		x3 : real := (x1 if x2 else 1) + 5 / 2  ;
+		x3 := x1 %2 if x2 and x2 or ( x1 < ++x1) else x1%4;
+
+
+		try catch end catch 
+
+	catch
+
+		try catch end catch
+
+	end catch 
+
+
+	for(x : int := 1 -> x)
+
+		x6 : Array<Array<int>> := [[1,2,3,4],[1,2,3,4]];
+
+		X7 : int := x6[1][2];
+
+	end for
+
+
+
+end main
+
+===========================================================
+========================= RESULT ==========================
+===========================================================
+
+tests/demo04.r
+
+[PARSING]: PASS
+
+[Info]: Abstract Syntax Tree
+`- ProcDef'main', <line:3,col:6>
+  `- StmtDecl 
+  | `- ConstDef 'x', <line:5,col:15>, char
+  |   `- ExprVal Char 'x', <line:5,col:27>
+  `- StmtDecl 
+  | `- VarDef 'x1', <line:6,col:9>, int
+  |   `- ExprLeft 
+  |     `- LEId 'x', <line:6,col:21>
+  `- StmtDecl 
+  | `- VarDef 'x2', <line:7,col:9>, string
+  |   `- ExprLeft 
+  |     `- LEId 'x', <line:7,col:24>
+  `- StmtDecl 
+  | `- VarDef 'x3', <line:10,col:9>, int
+  |   `- ExprSum 
+  |     `- ExprLeft 
+  |     | `- LEId 'x1', <line:10,col:21>
+  |     `- ExprMod 
+  |       `- ExprVal Int  1, <line:10,col:25>
+  |       `- ExprPow 
+  |         `- ExprVal Char 'c', <line:10,col:29>
+  |         `- ExprVal Int  2, <line:10,col:35>
+  `- StmtDecl 
+  | `- VarDef 'x4', <line:11,col:9>, Array <char>
+  |   `- ExprArray 
+  |     `- ExprVal Char 'a', <line:11,col:30>
+  |     `- ExprVal Char 'b', <line:11,col:34>
+  |     `- ExprVal Char 'a', <line:11,col:38>
+  |     `- ExprVal Char '\n', <line:11,col:42>
+  |     `- ExprVal Char '\\', <line:11,col:47>
+  `- StmtDecl 
+  | `- VarDef 'x5', <line:12,col:9>, Array <string>
+  |   `- ExprLeft 
+  |     `- LEId 'x4', <line:12,col:31>
+  `- StmtAssign 
+  | `- LEArray 
+  | | `- LEId 'x5', <line:14,col:9>
+  | | `- DimArray
+  | |   `- ExprSum 
+  | |     `- ExprVal Int  1, <line:14,col:12>
+  | |     `- ExprVal Int  1, <line:14,col:14>
+  | `- ExprLeft 
+  |   `- LEArray 
+  |     `- LEId 'x4', <line:14,col:20>
+  |     `- DimArray
+  |       `- ExprIf
+  |         `- ExprVal Char 's', <line:14,col:23>
+  |         `- ExprVal Bool True, <line:14,col:30>
+  |         `- ExprVal Char 'c', <line:14,col:40>
+  `- StmtFor
+  | `- VarDef 'x', <line:16,col:13>, int
+  | | `- ExprVal Char 'c', <line:16,col:24>
+  | `- FromTo
+  | `- ExprVal Char ' ', <line:16,col:31>
+  | `- StmtDecl 
+  | | `- VarDef 'x1', <line:18,col:18>, real
+  | |   `- ExprVal Char '\\', <line:18,col:31>
+  | `- StmtDecl 
+  | | `- VarDef 'x2', <line:19,col:18>, char
+  | |   `- ExprVal Char 'd', <line:19,col:31>
+  | `- StmtAssign 
+  | | `- LEId 'x1', <line:20,col:18>
+  | | `- ExprLeft 
+  | |   `- LEArray 
+  | |     `- LEId 'x4', <line:20,col:24>
+  | |     `- DimArray
+  | |       `- ExprLeft 
+  | |         `- LEId 'x2', <line:20,col:27>
+  | `- StmtDecl 
+  | | `- VarDef 'x4', <line:22,col:18>, bool
+  | |   `- ExprRel
+  | |     `- ExprVal String "cia", <line:22,col:31>
+  | |     `- RelEq
+  | |     `- ExprLeft 
+  | |       `- LEId 'x2', <line:22,col:39>
+  | `- StmtAssign 
+  | | `- LEId 'x4', <line:23,col:18>
+  | | `- ExprRel
+  | |   `- ExprVal Int  1, <line:23,col:24>
+  | |   `- RelEq
+  | |   `- ExprVal Real 1.0, <line:23,col:26>
+  | `- StmtAssign 
+  | | `- LEId 'x4', <line:24,col:18>
+  | | `- ExprRel
+  | |   `- ExprVal Int  1, <line:24,col:24>
+  | |   `- RelEq
+  | |   `- ExprVal Char 'c', <line:24,col:26>
+  | `- StmtAssign 
+  | | `- LEId 'x4', <line:25,col:18>
+  | | `- ExprRel
+  | |   `- ExprVal Int  10, <line:25,col:24>
+  | |   `- RelEq
+  | |   `- ExprVal Char '\n', <line:25,col:29>
+  | `- StmtAssign 
+  | | `- LEId 'x4', <line:26,col:18>
+  | | `- ExprRel
+  | |   `- ExprVal String "cia", <line:26,col:24>
+  | |   `- RelNotEq
+  | |   `- ExprVal Char 'c', <line:26,col:33>
+  | `- StmtAssign 
+  |   `- LEId 'x4', <line:27,col:18>
+  |   `- ExprRel
+  |     `- ExprVal Char 'c', <line:27,col:24>
+  |     `- RelLess
+  |     `- ExprVal Int  1, <line:27,col:30>
+  `- StmtTryCatch
+  | `- BTry
+  | | `- StmtDecl 
+  | | | `- VarDef 'x1', <line:33,col:17>, int
+  | | |   `- ExprIf
+  | | |     `- ExprVal Int  1, <line:33,col:29>
+  | | |     `- ExprVal Bool True, <line:33,col:34>
+  | | |     `- ExprVal Int  2, <line:33,col:44>
+  | | `- StmtDecl 
+  | | | `- VarDef 'x2', <line:34,col:17>, bool
+  | | |   `- ExprIf
+  | | |     `- ExprVal Bool True, <line:34,col:30>
+  | | |     `- ExprRel
+  | | |     | `- ExprLeft 
+  | | |     | | `- LEId 'x1', <line:34,col:38>
+  | | |     | `- RelEq
+  | | |     | `- ExprLeft 
+  | | |     |   `- LEId 'x1', <line:34,col:43>
+  | | |     `- ExprVal Bool False, <line:34,col:51>
+  | | `- StmtDecl 
+  | | | `- VarDef 'x3', <line:36,col:17>, real
+  | | |   `- ExprSum 
+  | | |     `- ExprBrack 
+  | | |     | `- ExprIf
+  | | |     |   `- ExprLeft 
+  | | |     |   | `- LEId 'x1', <line:36,col:31>
+  | | |     |   `- ExprLeft 
+  | | |     |   | `- LEId 'x2', <line:36,col:37>
+  | | |     |   `- ExprVal Int  1, <line:36,col:45>
+  | | |     `- ExprDiv 
+  | | |       `- ExprVal Int  5, <line:36,col:50>
+  | | |       `- ExprVal Int  2, <line:36,col:54>
+  | | `- StmtAssign 
+  | | | `- LEId 'x3', <line:37,col:17>
+  | | | `- ExprIf
+  | | |   `- ExprMod 
+  | | |   | `- ExprLeft 
+  | | |   | | `- LEId 'x1', <line:37,col:23>
+  | | |   | `- ExprVal Int  2, <line:37,col:27>
+  | | |   `- ExprOr 
+  | | |   | `- ExprAnd 
+  | | |   | | `- ExprLeft 
+  | | |   | | | `- LEId 'x2', <line:37,col:32>
+  | | |   | | `- ExprLeft 
+  | | |   | |   `- LEId 'x2', <line:37,col:39>
+  | | |   | `- ExprBrack 
+  | | |   |   `- ExprRel
+  | | |   |     `- ExprLeft 
+  | | |   |     | `- LEId 'x1', <line:37,col:47>
+  | | |   |     `- RelLess
+  | | |   |     `- ExprLeft 
+  | | |   |       `- LEPreIncrem 
+  | | |   |         `- LEId 'x1', <line:37,col:54>
+  | | |   `- ExprMod 
+  | | |     `- ExprLeft 
+  | | |     | `- LEId 'x1', <line:37,col:63>
+  | | |     `- ExprVal Int  4, <line:37,col:66>
+  | | `- StmtTryCatch
+  | |   `- BTry
+  | |   `- Bcathc
+  | `- Bcathc
+  |   `- StmtTryCatch
+  |     `- BTry
+  |     `- Bcathc
+  `- StmtFor
+    `- VarDef 'x', <line:49,col:13>, int
+    | `- ExprVal Int  1, <line:49,col:24>
+    `- FromTo
+    `- ExprLeft 
+    | `- LEId 'x', <line:49,col:29>
+    `- StmtDecl 
+    | `- VarDef 'x6', <line:51,col:17>, Array <Array <int>>
+    |   `- ExprArray 
+    |     `- ExprArray 
+    |     | `- ExprVal Int  1, <line:51,col:45>
+    |     | `- ExprVal Int  2, <line:51,col:47>
+    |     | `- ExprVal Int  3, <line:51,col:49>
+    |     | `- ExprVal Int  4, <line:51,col:51>
+    |     `- ExprArray 
+    |       `- ExprVal Int  1, <line:51,col:55>
+    |       `- ExprVal Int  2, <line:51,col:57>
+    |       `- ExprVal Int  3, <line:51,col:59>
+    |       `- ExprVal Int  4, <line:51,col:61>
+    `- StmtDecl 
+      `- VarDef 'X7', <line:53,col:17>, int
+        `- ExprLeft 
+          `- LEArray 
+            `- LEArray 
+            | `- LEId 'x6', <line:53,col:29>
+            | `- DimArray
+            |   `- ExprVal Int  1, <line:53,col:32>
+            `- DimArray
+              `- ExprVal Int  2, <line:53,col:35>
+
+
+
+[STATIC ANALYSIS]: PASS
+[Info]: TAC Generator
+            call main@3,6
+            exit 
+ 
+ main@3,6:  // Preamble main
+            // Body main
+            // Constant x@5,15 has value 'x'
+ l1:        x1@6,9          =int   120
+ l2:        x2@7,9          =addr  str0
+ l3:        t0              =int   x1@6,9
+            t1              =int   t0 add_int 1
+            x3@10,9         =int   t1
+ l4:        x4@11,9[0]      =char  'a'
+            x4@11,9[2]      =char  'b'
+            x4@11,9[4]      =char  'a'
+            x4@11,9[6]      =char  '\n'
+            x4@11,9[8]      =char  '\\'
+ l5:        t2              =char  x4@11,9[0]
+            t3              =addr  conv_char_to_addr t2
+            x5@12,9[0]      =addr  t3
+            t4              =char  x4@11,9[2]
+            t5              =addr  conv_char_to_addr t4
+            x5@12,9[4]      =addr  t5
+            t6              =char  x4@11,9[4]
+            t7              =addr  conv_char_to_addr t6
+            x5@12,9[8]      =addr  t7
+            t8              =char  x4@11,9[6]
+            t9              =addr  conv_char_to_addr t8
+            x5@12,9[12]     =addr  t9
+            t10             =char  x4@11,9[8]
+            t11             =addr  conv_char_to_addr t10
+            x5@12,9[16]     =addr  t11
+ l6:        t12             =char  's'
+            goto l8
+ l9:        t12             =char  'c'
+ l8:        t13             =char  t12
+            t14             =int   conv_char_to_int t13
+            t15             =int   t14 mul_int 2
+            t16             =char  x4@11,9[t15]
+            t17             =addr  conv_char_to_addr t16
+            x5@12,9[8]      =addr  t17
+ l7:        x@16,13         =int   99
+            goto l12
+ l11:       x1@18,18        =real  92.0
+ l14:       x2@19,18        =char  'd'
+ l15:       t18             =char  x2@19,18
+            t19             =int   conv_char_to_int t18
+            t20             =int   t19 mul_int 2
+            t21             =char  x4@11,9[t20]
+            t22             =real  conv_char_to_real t21
+            x1@18,18        =real  t22
+ l16:       t23             =addr  conv_char_to_addr x2@19,18
+            ifRel (str1 not_eq_addr t23) goto l19
+            t24             =bool  True
+            goto l18
+ l19:       t24             =bool  False
+ l18:       x4@22,18        =bool  t24
+ l17:       x4@22,18        =bool  True
+ l20:       x4@22,18        =bool  False
+ l21:       x4@22,18        =bool  True
+ l22:       x4@22,18        =bool  True
+ l23:       x4@22,18        =bool  False
+ l13:       t25             =int   x@16,13 add_int 1
+            x@16,13         =int   t25
+ l12:       ifRel (x@16,13 less_eq_int ' ') goto l11
+ l10:       onexceptiongoto l25
+            t26             =int   1
+            goto l27
+ l28:       t26             =int   2
+ l27:       x1@33,17        =int   t26
+ l26:       t27             =int   x1@33,17
+            ifRel (t27 not_eq_int x1@33,17) goto l31
+            t28             =bool  True
+            goto l30
+ l31:       t28             =bool  False
+ l30:       x2@34,17        =bool  t28
+ l29:       ifFalse x2@34,17 goto l34
+            t29             =int   x1@33,17
+            goto l33
+ l34:       t29             =int   1
+ l33:       t30             =int   t29
+            t31             =real  conv_int_to_real t30
+            t32             =real  t31 add_real 2.5
+            x3@36,17        =real  t32
+ l32:       ifFalse x2@34,17 goto l39
+            if x2@34,17 goto l38
+ l39:       t33             =int   x1@33,17
+            t34             =int   x1@33,17 add_int 1
+            x1@33,17        =int   t34
+            ifRel (t33 gr_eq_int x1@33,17) goto l37
+ l38:       t36             =int   x1@33,17
+            t37             =int   t36 mod_int 2
+            t35             =int   t37
+            goto l36
+ l37:       t38             =int   x1@33,17
+            t39             =int   t38 mod_int 4
+            t35             =int   t39
+ l36:       t40             =real  conv_int_to_real t35
+            x3@36,17        =real  t40
+ l35:       onexceptiongoto l40
+            goto l24
+ l40:       onexceptiongoto l25
+            goto l24
+ l25:       onexceptiongoto default_handler
+            onexceptiongoto l41
+            goto l24
+ l41:       onexceptiongoto default_handler
+ l24:       x@49,13         =int   1
+            t41             =int   x@49,13
+            goto l43
+ l42:       x6@51,17[0]     =int   1
+            x6@51,17[4]     =int   2
+            x6@51,17[8]     =int   3
+            x6@51,17[12]    =int   4
+            x6@51,17[16]    =int   1
+            x6@51,17[20]    =int   2
+            x6@51,17[24]    =int   3
+            x6@51,17[28]    =int   4
+ l45:       t42             =int   x6@51,17 add_int 16
+            t43             =int   t42[8]
+            X7@53,17        =int   t43
+ l44:       t44             =int   x@49,13 add_int 1
+            x@49,13         =int   t44
+ l43:       ifRel (x@49,13 less_eq_int t41) goto l42
+ l0:        // Postamble main
+            return 
+
+############   Static Data  ############
+
+ str2:      "c"
+ str1:      "cia"
+ str0:      "x"
+
