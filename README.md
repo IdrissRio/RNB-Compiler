@@ -2,15 +2,15 @@
 
 
 
-RNB-Compiler is an accademic project, developed during the my Master Degree at the University of Udine.
-The project have the purpose to build the front-end and the middle-end of a compiler.
+RNB-Compiler is an accademic project, developed during my Master Degree at the University of Udine.
+The project has the purpose to build the front-end and the middle-end of a compiler.
 
 ## Main goal:
   - Design an imperative language
   - Develop the compiler front-end and middle-end in Haskell 
 
 ## Minor goal:
-  - Design the grammar and the sintax of the languague
+  - Design the grammar and the syntax of the languague
   - Design a readable Abstract Syntax Tree
   - Design a Typechecker
   - Design the Static Analysis module
@@ -33,7 +33,7 @@ $ cabal update
 $ cabal install alex happy
 $ make
 ```
-This will produced the binary file `./rnbc`.
+This will produce the binary file `./rnbc`.
 ### Usage
 Running `rnbc` with the flag `--help` we will obtain
 
@@ -61,7 +61,7 @@ In order :
 
 
 ## Example
-As follow is an the output obtained executing `./rnbc tests/demo02`:
+What follows is the output obtained executing `./rnbc tests/demo02`:
 ```
 == Control flow and test:
 const x : int := 5;
