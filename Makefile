@@ -4,7 +4,7 @@ TACDEMO = demo01 demo02 demo03 demo04 demo05 demo06
 all:
 	happy -gca ParRnb.y
 	alex -g LexRnb.x
-	ghc --make Compiler.hs -o rnbc -Wunused-matches
+	ghc --make Compiler.hs -o rnbc
 	-rm -f *.log *.aux *.hi *.o *.dvi *.bak
 
 compiler:
