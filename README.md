@@ -1,4 +1,4 @@
-# Red is Not Blue (Compiler) [![Build Status](https://travis-ci.com/IdrissRio/RNB-Compiler.svg?branch=master)](https://travis-ci.com/IdrissRio/RNB-Compiler.svg?branch=master)
+# Red is Not Blue (Compiler) [![Build Status](https://travis-ci.com/IdrissRio/RNB-Compiler.svg?branch=master)](https://travis-ci.com/IdrissRio/RNB-Compiler/jobs/197894997)
 
 
 
