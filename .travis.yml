@@ -11,6 +11,7 @@ before_install:
 install:
  - cabal update
  - cabal install alex happy
+ - export PATH=~/.cabal/bin:$PATH
 
 script:
   - make
